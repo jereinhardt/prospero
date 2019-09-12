@@ -24,7 +24,7 @@ Most of the configuration for Prospero will be done in the live view file.  Ther
 - `:steps` - the total number of steps your form has.
 - `:schema` - The changeset schema Prospero should use to manage and validate user input.
 
-When you mount your live view file, you will need to call `prepare_live_form/1` with the socket to update the socket with all the necessary assigns.
+When you mount your live view file, you will need to call `prepare_live_form/2` with the socket to update the socket with all the necessary assigns.  You can pass in an optional second argument to assign any preset data to the schema struct the form will be initialized with.
 
 Finally, you will need to define a `submit_form/2` callback.  This callback will perform any actions necessary to complete the form submission.  In most cases, this will be applying CRUD actions to the database.  It will take two arguments.  The first is a map—which is the final parameters submitted by the form—and the second is the socket.  It can return any value that is an expected return value of `Phoenix.LiveView.handle_callback/3`.  The return value should be a response that either redirects the user or displays an error message.
 
@@ -35,8 +35,9 @@ defmodule DnDApplicationWeb.CharacterLive.New do
 
   use Prospero.LiveForm, schema: Character, steps: 3
 
-  def mount(_session, socket) do
-    {:ok, prepare_live_form(socket)}
+  def mount(session, socket) do
+    data = Map.get(session, :character, %{})
+    {:ok, prepare_live_form(socket, data)}
   end
 
   @impl true

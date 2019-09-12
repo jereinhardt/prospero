@@ -12,13 +12,27 @@ defmodule Prospero.LiveFormTest do
     %Socket{assigns: %{live_form: live_form}}
   end
 
-  describe "prepare_live_form/1" do
+  describe "prepare_live_form/2" do
     test "creates form data and assigns it to :live_form" do
       {res, %{assigns: assigns}} = FormLive.mount(%{}, %Socket{})
 
 
       assert res == :ok
       assert assigns |> Map.get(:live_form) |> is_map()
+    end
+
+    test "assigns preset data from the session" do
+      name = "name"
+      {res, %{assigns: assigns}} = FormLive.mount(%{data: %{name: name}}, %Socket{})
+      form_name =
+        assigns
+        |> Map.get(:live_form, %{})
+        |> Map.get(:changeset, %{})
+        |> Map.get(:data, %{})
+        |> Map.get(:name)
+
+      assert res == :ok
+      assert form_name == name
     end
   end
 

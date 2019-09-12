@@ -3,7 +3,8 @@ defmodule Prospero.LiveViewTest.FormLive do
   use LiveForm, schema: TestSchema, steps: 2
 
   def mount(session, socket) do
-    {:ok, prepare_live_form(socket)}
+    data = Map.get(session, :data, %{})
+    {:ok, prepare_live_form(socket, data)}
   end
 
   def submit_form(params, socket) do

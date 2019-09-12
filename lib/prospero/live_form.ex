@@ -21,8 +21,10 @@ defmodule Prospero.LiveForm do
 
   ### Setup
   When defining the `mount/2` callback required by LiveView, you must use
-  the function `prepare_live_form/1` with the socket to assign all the data
-  Prospero will need in the template.  This method will return the updated
+  the function `prepare_live_form/2` with the socket to assign all the data
+  Prospero will need in the template.  `prepare_live_form/2` takes the socket
+  as its first argument, and any data you would like to preset the form's schema
+  with as an optional second argument.  This method will return the updated
   socket, which can be used to complete the callback
 
   ### Callbacks and Teardown
@@ -109,8 +111,9 @@ defmodule Prospero.LiveForm do
         {:noreply, assign(socket, live_form: live_form)}
       end
 
-      defp prepare_live_form(socket) do
-        changeset = @schema.changeset(%@schema{}, %{})
+      defp prepare_live_form(socket, data \\ %{}) do
+        struct = @schema.__struct__(data)
+        changeset = @schema.changeset(struct, %{})
         live_form = %FormData{changeset: changeset}
         assign(socket, live_form: live_form)
       end
