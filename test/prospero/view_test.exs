@@ -29,7 +29,7 @@ defmodule Prospero.ViewTest do
   describe "back_button/1" do
     test "it returns an escaped button with the given string content" do
       content = "Back"
-      opts = ["phx-click": "move_back"]
+      opts = ["phx-click": "move_back", type: "button"]
 
       result = Prospero.View.back_button(content)
 
@@ -38,7 +38,7 @@ defmodule Prospero.ViewTest do
 
     test "it returns an escaped button with the html content given" do
       content = ~E"<span class='icon'></span>Back"
-      opts = ["phx-click": "move_back"]
+      opts = ["phx-click": "move_back", type: "button"]
 
       result = Prospero.View.back_button(do: content)
 
@@ -50,7 +50,7 @@ defmodule Prospero.ViewTest do
     test "it returns an escaped button with the given attributes and string content" do
       content = "Back"
       attributes = [role: "button"]
-      opts = Keyword.merge(attributes, ["phx-click": "move_back"])
+      opts = Keyword.merge(attributes, ["phx-click": "move_back", type: "button"])
 
       result = Prospero.View.back_button(content, attributes)
 
@@ -60,7 +60,7 @@ defmodule Prospero.ViewTest do
     test "it returns an escaped button with the given attributes and html content" do
       content = ~E"<span class='icon'></span>Back"
       attributes = [role: "button"]
-      opts = Keyword.merge(attributes, ["phx-click": "move_back"])
+      opts = Keyword.merge(attributes, ["phx-click": "move_back", type: "button"])
 
       result = Prospero.View.back_button(attributes, do: content)
 

@@ -39,11 +39,11 @@ defmodule Prospero.View do
   """
   @spec back_button(Keyword.t() | String.t()) :: Phoenix.HTML.safe()
   def back_button(do: content) do
-    content_tag(:button, content, "phx-click": "move_back")
+    content_tag(:button, content, "phx-click": "move_back", type: "button")
   end
 
   def back_button(content) when is_binary(content) do
-    content_tag(:button, content, "phx-click": "move_back")
+    content_tag(:button, content, "phx-click": "move_back", type: "button")
   end
 
   @doc ~S"""
@@ -63,11 +63,12 @@ defmodule Prospero.View do
   """
   @spec back_button(Keyword.t() | String.t(), Keyword.t()) :: Phoenix.HTML.safe()
   def back_button(attrs, do: content) do
-    back_button(content, attrs)
+    merged_attrs = Keyword.merge(attrs, [type: "button"])
+    back_button(content, merged_attrs)
   end
 
   def back_button(content, attrs) when is_list(attrs) do
-    attrs = Keyword.put(attrs, :"phx-click", "move_back")
-    content_tag(:button, content, attrs)
+    merged_attrs = Keyword.merge(attrs, ["phx-click": "move_back", type: "button"])
+    content_tag(:button, content, merged_attrs)
   end
 end
